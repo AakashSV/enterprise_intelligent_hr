@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Michelle HR — Enterprise AI Agent</title>
+  <link rel="stylesheet" href="/static/style.css?v=3.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo-badge">🤖</div>
+      <div>
+        <h1>Michelle HR</h1>
+        <p class="subtitle">Enterprise All-in-One AI Agent • Human-in-the-Loop Enforced</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="status-indicator online"></span>
+      <span class="system-status">HITL Engine: <strong>ACTIVE</strong></span>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="tab-btn active" data-tab="approvals-tab">
+        Pending Approvals <span class="badge" id="pending-badge">0</span>
+      </button>
+      <button class="tab-btn" data-tab="screen-tab">Screen Candidate</button>
+      <button class="tab-btn" data-tab="ops-tab">HR Operations (Pillars 2–6)</button>
+      <button class="tab-btn" data-tab="jobs-tab">Job Requisitions</button>
+      <button class="tab-btn" data-tab="analytics-tab">Workforce Analytics</button>
+      <button class="tab-btn" data-tab="history-tab">Audit Ledger</button>
+    </nav>
+
+    <!-- Tab 1: Pending Approvals (HITL Hub) -->
+    <section id="approvals-tab" class="tab-content active">
+      <div class="section-header">
+        <h2>Manager Review & Approval Hub</h2>
+        <p>Review AI-generated scorecards and stage payloads. No action is dispatched without explicit sign-off.</p>
+      </div>
+      <div id="pending-list" class="cards-grid">
+        <div class="loading-state">Loading pending approvals...</div>
+      </div>
+    </section>
+
+    <!-- Tab 2: Screen Candidate -->
+    <section id="screen-tab" class="tab-content">
+      <div class="section-header">
+        <h2>Screen & Score Candidate</h2>
+        <p>Parse resume against a job requisition, evaluate match dimensions, and stage outreach/rejection.</p>
+      </div>
+
+      <form id="screen-form" class="card form-card">
+        <div class="form-group">
+          <label for="select-job">Target Job Requisition</label>
+          <select id="select-job" required>
+            <option value="">Select a job requisition...</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="cand-name">Candidate Full Name *</label>
+            <input type="text" id="cand-name" placeholder="e.g., Aakash Sajikumar" required />
+          </div>
+          <div class="form-group half">
+            <label for="cand-email">Email Address</label>
+            <input type="email" id="cand-email" placeholder="e.g., aakash@example.com" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="cand-loc">Current Location</label>
+            <input type="text" id="cand-loc" placeholder="e.g., Berlin, Germany" />
+          </div>
+          <div class="form-group half">
+            <label for="cand-edu">Education</label>
+            <input type="text" id="cand-edu" placeholder="e.g., MSc Data Science" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cand-file">Upload Resume File (PDF, DOCX, or TXT)</label>
+          <input type="file" id="cand-file" accept=".pdf,.docx,.doc,.txt" style="background: #ffffff; padding: 8px;" />
+          <span style="font-size: 12px; color: #64748b;">Or paste raw resume text below:</span>
+        </div>
+
+        <div class="form-group">
+          <label for="cand-resume">Resume / CV Raw Text</label>
+          <textarea id="cand-resume" rows="8" placeholder="Paste the candidate's resume or CV text here (or upload a file above)..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-screen">
+          <span>⚡ Run AI Evaluation & Stage Draft</span>
+        </button>
+      </form>
+
+      <!-- HRMS Webhook Ingestion Simulator Card -->
+      <div class="card" style="margin-top: 28px; border-left: 4px solid #059669;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <div>
+            <h3 style="font-size: 16px; font-weight: 700; color: #0f172a;">🔗 Live HRMS Webhook Ingestion Simulator</h3>
+            <p style="font-size: 13px; color: #64748b; margin-top: 2px;">Simulate real-time candidate webhook payloads from Workday, Personio, or BambooHR.</p>
+          </div>
+          <span class="status-tag status-COMMITTED">Adapter: Active</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group half">
+            <label for="sim-source">Source HRMS</label>
+            <select id="sim-source">
+              <option value="Workday">Workday Enterprise</option>
+              <option value="Personio">Personio ATS</option>
+              <option value="BambooHR">BambooHR Webhook</option>
+            </select>
+          </div>
+          <div class="form-group half">
+            <label for="sim-candidate">Simulated Candidate</label>
+            <select id="sim-candidate">
+              <option value="elena">Elena Rostova — Senior Python / Automation Engineer (Strong Match)</option>
+              <option value="marcus">Marcus Weber — Business Analyst / Excel (Moderate Match)</option>
+              <option value="sophia">Sophia Müller — Accountant & Auditor (Mismatch / Reject)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-approve" id="btn-simulate-webhook" style="width: auto;">
+          <span>⚡ Trigger Inbound HRMS Webhook</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Tab 3: HR Operations (Pillars 2–6) -->
+    <section id="ops-tab" class="tab-content">
+      <div class="section-header">
+        <h2>Enterprise HR Operations Hub</h2>
+        <p>Trigger automated workflows across Onboarding, Policy Helpdesk, Attendance, Payroll, and Events. Every operation stages a draft for HITL authorization.</p>
+      </div>
+
+      <div class="cards-grid">
+        <!-- Pillar 2: Onboarding -->
+        <div class="card">
+          <div class="cand-meta">PILLAR 2</div>
+          <h3 style="margin: 6px 0 10px; color: #0f172a;">🚀 Onboarding Package Generator</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Generate dynamic departmental IT hardware checklists and employment contract terms.</p>
+          <form id="onboarding-form">
+            <div class="form-group">
+              <label for="onb-name">Employee Name</label>
+              <input type="text" id="onb-name" value="Elena Rostova" required />
+            </div>
+            <div class="form-group">
+              <label for="onb-role">Role Title</label>
+              <input type="text" id="onb-role" value="Senior Automation Engineer" required />
+            </div>
+            <div class="form-group">
+              <label for="onb-dept">Department</label>
+              <select id="onb-dept">
+                <option value="Tesla SI / Battery Cell">Tesla SI / Battery Cell</option>
+                <option value="Engineering">Software Engineering</option>
+                <option value="General">Operations / General</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="onb-salary">Annual Salary (€)</label>
+              <input type="number" id="onb-salary" value="78000" required />
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span>📋 Stage Onboarding & Contract</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Pillar 3: Policy Helpdesk -->
+        <div class="card">
+          <div class="cand-meta">PILLAR 3</div>
+          <h3 style="margin: 6px 0 10px; color: #0f172a;">🎫 HR Helpdesk Policy RAG</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Ask policy questions. Routine queries are answered via policy RAG; sensitive disputes are flagged.</p>
+          <form id="helpdesk-form">
+            <div class="form-group">
+              <label for="help-name">Employee Name</label>
+              <input type="text" id="help-name" value="David K." required />
+            </div>
+            <div class="form-group">
+              <label for="help-query">Employee Question</label>
+              <textarea id="help-query" rows="4" placeholder="e.g. How many days of paid vacation do I get each year?" required>How many days of paid vacation do I get each year, and can I roll over unused PTO?</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 18px;">
+              <span>🔍 Run Policy RAG & Stage Reply</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Pillar 4: Attendance Anomaly -->
+        <div class="card">
+          <div class="cand-meta">PILLAR 4</div>
+          <h3 style="margin: 6px 0 10px; color: #0f172a;">🕐 Attendance & Time Audit</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Audit weekly timesheet punch logs for shift spikes (>10h) or unlogged absences.</p>
+          <form id="attendance-form">
+            <div class="form-group">
+              <label for="att-name">Employee Name (ID)</label>
+              <input type="text" id="att-name" value="Marcus Weber (EMP-882)" required />
+            </div>
+            <div class="form-group">
+              <label for="att-hours">Weekly Shift Hours (Mon - Fri)</label>
+              <input type="text" id="att-hours" value="8.0, 9.5, 11.0, 8.5, 9.0" required />
+              <span style="font-size: 11px; color: #64748b;">Comma-separated hours. Triggers alert if day > 10h.</span>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 36px;">
+              <span>⚠️ Run Audit & Stage Flag</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Pillar 5: Payroll Pre-Audit -->
+        <div class="card">
+          <div class="cand-meta">PILLAR 5</div>
+          <h3 style="margin: 6px 0 10px; color: #0f172a;">💰 Payroll Pre-Audit & Lock</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Reconcile timesheets, approved bonuses, and deductions into an audit lock file.</p>
+          <form id="payroll-form">
+            <div class="form-group">
+              <label for="pay-cycle">Cycle Period</label>
+              <input type="text" id="pay-cycle" value="October 2026 Cycle" required />
+            </div>
+            <div class="form-group">
+              <label>Headcount Ledger Preview</label>
+              <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 10px; border-radius: 8px; font-size: 12px; color: #334155;">
+                • 42 Full-time employees<br>
+                • Gross Base: €195,000.00<br>
+                • Performance Bonuses: €18,500.00<br>
+                • Tax & Pension Deductions: €42,000.00
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">
+              <span>🔒 Pre-Audit & Stage Lock File</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Pillar 6: Event Planning -->
+        <div class="card">
+          <div class="cand-meta">PILLAR 6</div>
+          <h3 style="margin: 6px 0 10px; color: #0f172a;">🎉 Company Event & Offsite Planner</h3>
+          <p style="font-size: 13px; color: #64748b; margin-bottom: 14px;">Calculate catering, venue, and team building budgets and draft calendar invites.</p>
+          <form id="event-form">
+            <div class="form-group">
+              <label for="evt-title">Event Title</label>
+              <input type="text" id="evt-title" value="Tesla Cell Q4 Strategy Summit" required />
+            </div>
+            <div class="form-row">
+              <div class="form-group half">
+                <label for="evt-headcount">Headcount</label>
+                <input type="number" id="evt-headcount" value="45" required />
+              </div>
+              <div class="form-group half">
+                <label for="evt-budget">Budget/Head (€)</label>
+                <input type="number" id="evt-budget" value="180" required />
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <span>📅 Optimize Budget & Stage Invite</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Job Requisitions -->
+    <section id="jobs-tab" class="tab-content">
+      <div class="section-header">
+        <h2>Job Requisitions</h2>
+        <button class="btn btn-secondary" id="btn-toggle-new-job">+ Create Job Requisition</button>
+      </div>
+
+      <div id="new-job-form-wrapper" class="card form-card hidden">
+        <h3>New Requisition</h3>
+        <form id="job-form">
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="job-req">Req ID *</label>
+              <input type="text" id="job-req" placeholder="e.g. 285983" required />
+            </div>
+            <div class="form-group half">
+              <label for="job-title">Job Title *</label>
+              <input type="text" id="job-title" placeholder="e.g. AI Adoption & Implementation Intern" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group half">
+              <label for="job-dept">Department</label>
+              <input type="text" id="job-dept" placeholder="e.g. Tesla SI / Battery Cell" />
+            </div>
+            <div class="form-group half">
+              <label for="job-loc">Location</label>
+              <input type="text" id="job-loc" placeholder="e.g. Grünheide (Mark), Brandenburg" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="job-desc">Job Description & Responsibilities *</label>
+            <textarea id="job-desc" rows="6" placeholder="Paste full job description..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Save Requisition</button>
+        </form>
+      </div>
+
+      <div id="jobs-list" class="cards-grid">
+        <div class="loading-state">Loading requisitions...</div>
+      </div>
+    </section>
+
+    <!-- Tab 4: Workforce Analytics (7 Pillars) -->
+    <section id="analytics-tab" class="tab-content">
+      <div class="section-header">
+        <h2>7 Pillars Workforce Analytics & Insights</h2>
+        <p>Live read-only telemetry across Hiring, Onboarding, Helpdesk, Attendance, Payroll, Events, and Governance.</p>
+      </div>
+
+      <div class="card" style="margin-bottom: 24px; border-left: 4px solid #4f46e5;">
+        <h3 style="font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #4f46e5;">Executive Natural-Language Brief</h3>
+        <p id="analytics-narrative" style="font-size: 14.5px; line-height: 1.6; color: #334155;">Loading system telemetry...</p>
+      </div>
+
+      <div class="cards-grid" id="analytics-kpi-grid">
+        <div class="card"><div class="cand-meta">REQUISITIONS</div><div class="score-num" id="kpi-jobs" style="color: #4f46e5;">-</div><div class="cand-meta">Active roles tracked</div></div>
+        <div class="card"><div class="cand-meta">SCREENED PROFILES</div><div class="score-num" id="kpi-candidates" style="color: #0284c7;">-</div><div class="cand-meta">ML evaluated</div></div>
+        <div class="card"><div class="cand-meta">PENDING HITL GATES</div><div class="score-num" id="kpi-pending" style="color: #d97706;">-</div><div class="cand-meta">Awaiting sign-off</div></div>
+        <div class="card"><div class="cand-meta">COMMITTED ACTIONS</div><div class="score-num" id="kpi-executed" style="color: #059669;">-</div><div class="cand-meta">Dispatched to production</div></div>
+      </div>
+    </section>
+
+    <!-- Tab 5: Audit Ledger -->
+    <section id="history-tab" class="tab-content">
+      <div class="section-header">
+        <h2>Application Pipeline & Audit Logs</h2>
+        <p>Complete historical log of all candidate evaluations, manager decisions, and state transitions.</p>
+      </div>
+      <div id="all-apps-list" class="cards-grid">
+        <div class="loading-state">Loading applications...</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Decision Modal -->
+  <div id="decision-modal" class="modal hidden">
+    <div class="modal-overlay"></div>
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-candidate-name">Review Candidate Payload</h3>
+        <button class="modal-close" id="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body-content">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=3.0"></script>
+</body>
+</html>

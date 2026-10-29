@@ -1,0 +1,17 @@
+{
+  "model_version": "1.0.0",
+  "feature_names": [
+    "overall_similarity",
+    "experience_similarity",
+    "skills_similarity",
+    "summary_similarity",
+    "token_jaccard",
+    "length_ratio"
+  ],
+  "label_map": {
+    "3": "Strong Hire",
+    "2": "Hire",
+    "1": "Review",
+    "0": "Reject"
+  }
+}

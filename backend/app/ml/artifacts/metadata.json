@@ -1,0 +1,17 @@
+{
+  "model_version": "2.0.0",
+  "feature_names": [
+    "global_semantic_similarity",
+    "experience_relevance",
+    "skills_relevance",
+    "summary_relevance",
+    "token_jaccard",
+    "length_density_ratio"
+  ],
+  "label_map": {
+    "3": "Strong Hire",
+    "2": "Hire",
+    "1": "Review Required",
+    "0": "Reject"
+  }
+}
